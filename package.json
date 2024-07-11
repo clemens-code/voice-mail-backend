@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/index.js",
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon src/voice-mail.ts"
   },
   "repository": {
     "type": "git",
@@ -21,10 +21,12 @@
   "homepage": "https://github.com/clemens-code/voice-mail-backend#readme",
   "dependencies": {
     "express": "^4.19.2",
-    "firebase-admin": "^12.2.0"
+    "firebase-admin": "^12.2.0",
+    "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
+    "@types/multer": "^1.4.11",
     "@types/node": "^20.14.10",
     "nodemon": "^3.1.4",
     "ts-node": "^10.9.2",
