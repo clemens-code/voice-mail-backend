@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import authRoute from "./routes/auth.route";
 import protectedRoute from "./routes/protected.route";
+import bodyParser from 'body-parser';
 
 const app: Express = express();
 
@@ -16,6 +17,8 @@ const corsOptions = {
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use("/audio", audioRoute);
 app.use("/auth", authRoute);
 app.use("/protected", protectedRoute);
