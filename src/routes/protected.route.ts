@@ -1,9 +1,9 @@
 import {Router} from "express";
-import {verifyToken} from "../middelware/verifyToken";
+import {handleAuth} from "../middelware/handleAuth";
 
 const router = Router();
 
-router.get("/", verifyToken, (req, res) => {
+router.get("/", handleAuth, (req, res) => {
     res.json({message: "Protected route"});
 });
 

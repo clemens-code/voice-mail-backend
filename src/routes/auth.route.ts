@@ -1,30 +1,33 @@
 import {Router} from "express";
-import admin from "firebase-admin";
+import {handleAuth} from "../middelware/handleAuth";
+import {verifyToken} from "../services/verifyToken.service";
 
 const router = Router();
 
-router.post('/', async (req, res) => {
-    const {token} = req.body;
+router.get('/login', async (req, res) => {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+    console.log(token)
     if (!token) {
         return res.status(400).json({error: 'No token provided'});
     }
-    try {
-        await admin.auth().verifyIdToken(token);
-        res.cookie('authToken', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', // Use secure in production
-            sameSite: 'strict',
-            maxAge: 3600000, // 1 hour
+    verifyToken(token)
+        .catch((error) => {
+            console.error('Error verifying token:', error);
+            return res.status(401).json({message: 'Invalid token'});
+        })
+        .then(() => {
+            res.cookie('accessToken', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production', // Use secure in production
+                sameSite: 'strict',
+                maxAge: 3600000, // 1 hour
+            });
+            return res.status(200).json({message: 'Logged in successfully'});
         });
-        res.status(200).json({message: 'Logged in successfully'});
-    } catch (error) {
-        console.error('Error verifying token:', error);
-        res.status(401).json({error: 'Invalid token'});
-    }
 });
 
 router.post('/logout', (req, res) => {
-    res.clearCookie('authToken');
+    res.clearCookie('accessToken');
     res.status(200).json({message: 'Logged out successfully'});
 });
 

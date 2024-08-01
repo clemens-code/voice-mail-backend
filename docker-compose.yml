@@ -1,5 +1,3 @@
-version: '2'
-
 services:
   postgresql:
     image: docker.io/bitnami/postgresql:16

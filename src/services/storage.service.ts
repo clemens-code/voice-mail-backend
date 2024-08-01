@@ -9,7 +9,7 @@ if (!fs.existsSync(baseDir)){
 
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
-        const userId = req.user?.uid;
+        const userId = req.userId;
         if (!userId) {
             return callback(new Error('User ID not found'), baseDir);
         }
