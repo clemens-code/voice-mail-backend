@@ -10,20 +10,22 @@ router.post("/upload", upload.single('audio'), (req, res, next) => {
     res.json({message: "File uploaded successfully"});
 });
 
-router.post("/upload/card", async (req, res, next) => {
+router.post("/upload", upload.single('audio'), async (req, res, next) => {
     console.log(req.username);
+    console.log(req.filePath)
     const body: Partial<AudioRecordModel> = req.body;
-    //await tryConnection();
-    if (!body.avatarProps || !body.bgColor || !body.title || !body.description || !body.userName) {
+    if (!body.avatarProps || !body.bgColor || !body.title || !body.description || !body.title || !body.length || !body.recordedAt || !req.filePath) {
         console.log(body.avatarProps)
         console.log("error");
         console.log(body);
         res.status(400).json({error: "Invalid request body"});
         return;
     }
-    const t = await createNewRecord(body as AudioRecordModel);
-    console.log(t);
-    return res.status(200).json({message: t});
+    const audioRecord = body as AudioRecordModel;
+    audioRecord.audioUrl = req.filePath;
+    const id = await createNewRecord(body as AudioRecordModel);
+    console.log(id);
+    return res.status(200).json({message: id});
 })
 
 export default router;

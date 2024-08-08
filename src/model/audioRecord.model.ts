@@ -1,13 +1,15 @@
 export interface AudioRecordModel {
-    avatarProps: AvatarProps;
-    bgColor: string;
     title: string;
     description: string;
-    userName: string;
-    audioUrl: string | null;
+    recordedAt: Date;
+    length: number;
+    isPublic: boolean;
+    audioUrl: string;
+    bgColor: string;
+    avatarProps: AvatarProps;
 }
 
 export interface AvatarProps {
-    src: string | undefined;
-    alt: string | undefined;
+    src: string | null;
+    alt: string | null;
 }

@@ -35,13 +35,22 @@ AudioRecord.init({
             type: DataTypes.STRING,
             allowNull: false
         },
-        userName: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
         audioUrl: {
             type: DataTypes.STRING,
             allowNull: true
+        },
+        isPublic: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        },
+        length: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        recordedAt: {
+            type: DataTypes.DATE,
+            allowNull: false
         },
     },
     {
@@ -59,7 +68,7 @@ export const initConnection = async () => {
     }
 }
 
-export const createNewRecord = async (audioRecordModel: AudioRecordModel) => {
+export const createNewRecord = async (audioRecordModel: AudioRecordModel): Promise<string> => {
     console.log(uuid())
     const id = uuid();
     const record = await AudioRecord.create({
@@ -69,8 +78,10 @@ export const createNewRecord = async (audioRecordModel: AudioRecordModel) => {
         bgColor: audioRecordModel.bgColor,
         title: audioRecordModel.title,
         description: audioRecordModel.description,
-        userName: audioRecordModel.userName,
-        audioUrl: audioRecordModel.audioUrl
+        audioUrl: audioRecordModel.audioUrl,
+        length: audioRecordModel.length,
+        isPublic: audioRecordModel.isPublic,
+        recordedAt: audioRecordModel.recordedAt
     });
     console.log("Record created successfully");
     return record.dataValues.id;

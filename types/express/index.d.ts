@@ -6,8 +6,9 @@ declare global {
         interface Request {
            username: string;
            userId: string;
+           email: string;
+           filePath: string | null;
         }
     }
 }
-
 export {};
